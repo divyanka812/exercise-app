@@ -1,21 +1,39 @@
 import { useState } from "react";
-
-const Filters = ({ bodyPartListData,filterByBodyPart, muscleListData,filterByTargetMuscle,equipmenttListData,filterByEquipment }) => {
+import {FaFilter} from 'react-icons/fa'
+const Filters = ({ bodyPartListData,filterByBodyPart, muscleListData,filterByTargetMuscle,equipmenttListData,filterByEquipment,filterBySearch,handleResetFilter }) => {
   const [selectedBodyPart, setSelectedBodyPart] = useState("");
   const [selectedTargetMuscle, setSelectedTargetMuscle] = useState("");
   const [selectedEquipment, setSelectedEquipment] = useState("");
+  const [searchKey, setSearchKey] = useState("");
+  const [isFilterApplied, setisFilterApplied] = useState(false);
 
   function sendBodyPartSelected(value){
     setSelectedBodyPart(value);
     filterByBodyPart(value);
+    setisFilterApplied(true);
   }
   function sendMuscleSelected(value){
     setSelectedTargetMuscle(value);
     filterByTargetMuscle(value);
+    setisFilterApplied(true);
   }
   function sendSelectedEquipment(value){
     setSelectedEquipment(value);
     filterByEquipment(value);
+    setisFilterApplied(true);
+  }
+  function sendSearchKey(value){
+    setSearchKey(value);
+    filterBySearch(value);
+    setisFilterApplied(true);
+  }
+  function resetFilter(){
+    setSelectedBodyPart("");
+    setSelectedTargetMuscle("");
+    setSelectedEquipment("");
+    setSearchKey("");
+    setisFilterApplied(false);
+    handleResetFilter();
   }
   return (
     <div className=" mx-16 my-10 rounded-md bg-gradient-to-r from-cyan-500 via-violet-500 to-green-500 p-1">
@@ -27,6 +45,8 @@ const Filters = ({ bodyPartListData,filterByBodyPart, muscleListData,filterByTar
               <input
                 placeholder="Search by name"
                 className="border-2 rounded p-1"
+                value={searchKey}
+                onChange={(e)=>sendSearchKey(e.target.value)}
               />
             </div>
             <div className="flex flex-col w-max gap-3">
@@ -37,7 +57,7 @@ const Filters = ({ bodyPartListData,filterByBodyPart, muscleListData,filterByTar
                 value={selectedBodyPart}
               >
                 <option hidden>Select</option>
-                {bodyPartListData.map((item) => {
+                {bodyPartListData && bodyPartListData.map((item) => {
                   return <option key={item} value={item}>{item}</option>;
                 })}
               </select>
@@ -50,7 +70,7 @@ const Filters = ({ bodyPartListData,filterByBodyPart, muscleListData,filterByTar
                 value={selectedTargetMuscle}
               >
                 <option hidden>Select</option>
-                {muscleListData.map((item) => {
+                {muscleListData && muscleListData.map((item) => {
                   return <option key={item} value={item}>{item}</option>;
                 })}
               </select>
@@ -63,10 +83,14 @@ const Filters = ({ bodyPartListData,filterByBodyPart, muscleListData,filterByTar
                 value={selectedEquipment}
               >
                 <option hidden>Select</option>
-                {equipmenttListData.map((item) => {
+                {equipmenttListData && equipmenttListData.map((item) => {
                   return <option key={item} value={item}>{item}</option>;
                 })}
               </select>
+            </div>
+            <div className="flex flex-row w-max gap-3 cursor-pointer" onClick={resetFilter}>
+             <FaFilter className={isFilterApplied? "text-orange-400":"text-blue-400"}/>
+             <p>Reset All</p>
             </div>
           </div>
         </div>

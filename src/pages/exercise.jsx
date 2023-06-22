@@ -5,6 +5,7 @@ import Filters from "./filters";
 import { BASE_URL, ENDPOINTS } from "@/apiHandler/endPoints";
 import { GetApiHandler } from "@/apiHandler/appConfig";
 import ReactPaginate from "react-paginate";
+import {MdSportsGymnastics} from 'react-icons/md'
 
 const Exercise = () => {
   const [allExerciseData, setAllExerciseData] = useState([]);
@@ -16,6 +17,7 @@ const Exercise = () => {
   const [currentItems, setCurrentItems] = useState([]);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [isLoading, setisLoading] = useState(false);
+  const [error, setError] = useState("");
   const endOffset = itemOffset + itemsPerPage;
 
   const handlePageClick = (event) => {
@@ -139,6 +141,35 @@ const Exercise = () => {
       .catch((error) => {});
   }
 
+  function filterBySearch(exerciseName) {
+    setisLoading(true);
+    if(exerciseName){
+    const filterByExerciseNameURL = BASE_URL + ENDPOINTS.searchByName.replace('<exerciseName>', exerciseName);
+
+    GetApiHandler(filterByExerciseNameURL, "GET")
+      .then((response) => {
+        console.log("response",response);
+        if (response?.data) {
+          setError("");
+          setAllExerciseData(response.data);
+          setisLoading(false);
+        } else {
+          setisLoading(false);
+          setError(response?.response?.data?.error);
+        }
+      })
+      .catch((error) => {});
+    }
+    else{
+      setError("");
+      getAllExercises();
+    }
+  }
+
+  function handleResetFilter(){
+    getAllExercises();
+  }
+
   useEffect(() => {
     getAllExercises();
     getBodyPartList();
@@ -159,17 +190,20 @@ const Exercise = () => {
   return (
     <>
       <div className="flex justify-center my-10">
-        <h1 className="text-4xl">Get a healthier life</h1>
+        <h1 className="text-4xl">Sweat it out for a healthier life </h1> &nbsp;
+        <MdSportsGymnastics className="text-3xl"/>
       </div>
       <Filters bodyPartListData={bodyPartListData} filterByBodyPart={filterByBodyPart}
       muscleListData={muscleListData} filterByTargetMuscle={filterByTargetMuscle}
       equipmenttListData={equipmenttListData} filterByEquipment={filterByEquipment}
+      filterBySearch={filterBySearch} handleResetFilter={handleResetFilter}
       />
       <Cards
         currentItems={currentItems}
         handlePageClick={handlePageClick}
         pageCount={pageCount}
         isLoading={isLoading}
+        error={error}
       />
       )
     </>
