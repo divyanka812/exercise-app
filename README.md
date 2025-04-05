@@ -1,3 +1,9 @@
+
+**EXERCISE APPLICATION**
+https://exercise-app-xi.vercel.app/
+The Exercise App is NextJs application built with Tailwind CSS providing around 1300 exercises with animated demonstrations.
+It also provides different options to choose with categories like body part, target muscle equipment necessary, and a search exercise by its name.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
