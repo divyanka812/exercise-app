@@ -182,10 +182,10 @@ const Exercise = () => {
 
   useEffect(() => {
     setCurrentItems(allExerciseData.slice(itemOffset, endOffset));
-  }, [itemOffset, endOffset]);
-  useEffect(() => {
-    setCurrentItems(allExerciseData.slice(itemOffset, endOffset));
   }, [itemOffset, endOffset, allExerciseData]);
+  // useEffect(() => {
+  //   setCurrentItems(allExerciseData.slice(itemOffset, endOffset));
+  // }, [itemOffset, endOffset, allExerciseData]);
   
   return (
     <>

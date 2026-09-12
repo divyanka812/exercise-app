@@ -1,5 +1,5 @@
-export const BASE_URL = "http://exercisedb.p.rapidapi.com";
-
+export const BASE_URL = "https://exercisedb.p.rapidapi.com";
+//https://exercisedb.p.rapidapi.com/exercises?sortMethod=bodyPart&offset=0&limit=10&sortOrder=ascending
 export const ENDPOINTS = {
   allExercises: "/exercises",
   bodyPartList: "/exercises/bodyPartList",
